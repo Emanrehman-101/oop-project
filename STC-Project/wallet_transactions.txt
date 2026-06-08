@@ -1,0 +1,1 @@
+1|2|DEPOSIT|0.00|Account Created|2026-06-01 10:15:30

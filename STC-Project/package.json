@@ -1,0 +1,21 @@
+{
+  "name": "stc-ordering-management-system",
+  "version": "1.0.0",
+  "description": "Full Featured STC Ordering Management System website using C++ CGI backend and vanilla HTML/CSS/JS frontend.",
+  "main": "server.py",
+  "scripts": {
+    "compile": "compile.bat",
+    "start": "python server.py",
+    "dev": "python server.py"
+  },
+  "keywords": [
+    "cpp",
+    "cgi",
+    "oop",
+    "stc",
+    "restaurant",
+    "ordering"
+  ],
+  "author": "Antigravity",
+  "license": "ISC"
+}

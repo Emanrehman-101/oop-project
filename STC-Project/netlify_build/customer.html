@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - STC Express</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Premium Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Announcement Scrolling Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker" id="announcements-ticker">
+            <div class="ticker-item">Welcome to your STC dashboard!</div>
+            <div class="ticker-item">Load your E-Wallet to get instant Cashbacks!</div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo-section">
+                <i class="fa-solid fa-bolt" style="color: var(--stc-coral); font-size: 24px;"></i>
+                <span class="logo-text">stc<span style="color: #ffffff; font-weight: 300;">express</span></span>
+                <span class="logo-badge">Customer</span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link active">Dashboard</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-buttons">
+                <div class="theme-toggle" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <div class="user-profile-menu" onclick="handleLogout()">
+                    <div class="user-avatar" id="nav-user-avatar">C</div>
+                    <span id="nav-username" style="font-weight: 600; font-size: 14px;">Customer</span>
+                    <i class="fa-solid fa-right-from-bracket" style="font-size: 14px; opacity: 0.8;" title="Log Out"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Body -->
+    <main class="container animate-fade-in-up" style="padding-top: 30px;">
+        
+        <div class="dashboard-grid">
+            
+            <!-- Sidebar Panel -->
+            <aside class="sidebar-profile">
+                <div class="profile-card glass-card">
+                    <div class="profile-avatar-large" id="sidebar-user-avatar">C</div>
+                    <h3 class="profile-name" id="sidebar-username">Customer Name</h3>
+                    <p class="profile-email" id="sidebar-email">customer@stc.com</p>
+
+                    <!-- E-Wallet balance widget -->
+                    <div class="wallet-balance-box animate-float">
+                        <span class="wallet-label">STC Pay Balance</span>
+                        <div class="wallet-amount" id="sidebar-wallet-balance">Rs. 15,000.00</div>
+                        <div class="btn-load-wallet" onclick="openWalletModal()">Add Money <i class="fa-solid fa-circle-plus"></i></div>
+                    </div>
+
+                    <!-- Sidebar Section Navigation -->
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-menu-item active" onclick="switchDashboardTab('menu')" id="tab-btn-menu">
+                            <i class="fa-solid fa-utensils"></i> Order Food
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchDashboardTab('cart')" id="tab-btn-cart">
+                            <i class="fa-solid fa-shopping-basket"></i> Cart (<span id="sidebar-cart-count">0</span>)
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchDashboardTab('tracker')" id="tab-btn-tracker">
+                            <i class="fa-solid fa-route"></i> Live Order Tracker
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchDashboardTab('favorites')" id="tab-btn-favorites">
+                            <i class="fa-solid fa-heart"></i> My Favorites
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchDashboardTab('inbox')" id="tab-btn-inbox">
+                            <i class="fa-solid fa-envelope"></i> Notifications Inbox <span id="sidebar-inbox-unread-count" class="badge" style="background: var(--stc-coral); color: white; display: none;">0</span>
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchDashboardTab('history')" id="tab-btn-history">
+                            <i class="fa-solid fa-history"></i> Order History
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Dashboard Content Views -->
+            <section>
+                
+                <!-- View 1: Order Food (Menu) -->
+                <div class="tab-view active" id="view-menu">
+                    <div class="view-header">
+                        <h2>Our Kitchen Menu</h2>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <input type="text" id="menu-search-input-cust" placeholder="Search menu..." style="padding: 8px 16px; border-radius: 20px; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 13px;" oninput="searchMenuCust()">
+                            <select id="menu-category-select-cust" onchange="filterCategoryCust()" style="padding: 8px 16px; border-radius: 20px; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 13px; font-weight: 500;">
+                                <option value="All">All Categories</option>
+                                <option value="Burgers">Burgers</option>
+                                <option value="Pizza">Pizza</option>
+                                <option value="Sides">Sides</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Desserts">Desserts</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Grid -->
+                    <div class="menu-grid" id="customer-menu-grid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- View 2: Shopping Cart -->
+                <div class="tab-view" id="view-cart">
+                    <div class="view-header">
+                        <h2>Your Shopping Cart</h2>
+                    </div>
+
+                    <div class="cart-grid">
+                        <div class="glass-card" style="padding: 24px; min-height: 200px;">
+                            <div class="cart-items-list" id="cart-items-list">
+                                <!-- Filled by JS -->
+                                <p style="text-align: center; color: var(--text-secondary); padding: 40px 0;">Your cart is empty. Go back and select some items!</p>
+                            </div>
+                        </div>
+
+                        <!-- Checkout & Details Summary -->
+                        <div class="summary-card glass-card">
+                            <h3 class="summary-title">Order Summary</h3>
+                            
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">Rs. 0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Discount</span>
+                                <span id="cart-discount">Rs. 0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Delivery Fee</span>
+                                <span style="color: #2ec4b6; font-weight: 600;">FREE</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total Amount</span>
+                                <span id="cart-total">Rs. 0.00</span>
+                            </div>
+
+                            <!-- Discount coupon code -->
+                            <div class="coupon-box">
+                                <input type="text" id="coupon-code-input" class="coupon-input" placeholder="Promo Code (STC20)">
+                                <button class="btn-apply-coupon" onclick="applyCouponCode()">Apply</button>
+                            </div>
+
+                            <!-- Payment options -->
+                            <div class="payment-method-selector">
+                                <span class="payment-label">Payment Option</span>
+                                <div class="payment-options">
+                                    <div class="payment-option active" id="pay-opt-wallet" onclick="selectPaymentMethod('Wallet')">
+                                        <input type="radio" name="payment_method" value="Wallet" checked>
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 14px;">STC Pay Wallet</div>
+                                            <div style="font-size: 11px; color: var(--text-secondary);">Deduct balance instantly</div>
+                                        </div>
+                                    </div>
+                                    <div class="payment-option" id="pay-opt-cod" onclick="selectPaymentMethod('COD')">
+                                        <input type="radio" name="payment_method" value="COD">
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 14px;">Cash on Delivery</div>
+                                            <div style="font-size: 11px; color: var(--text-secondary);">Pay with cash at desk</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-submit" onclick="placeOrder()">Place Order & Pay</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 3: Live Order Tracker -->
+                <div class="tab-view" id="view-tracker">
+                    <div class="view-header">
+                        <h2>Live Order Tracker</h2>
+                    </div>
+
+                    <div id="tracker-container">
+                        <!-- Filled by JS -->
+                        <div class="glass-card" style="padding: 40px; text-align: center;">
+                            <i class="fa-solid fa-truck-fast" style="font-size: 50px; color: var(--border-color); margin-bottom: 16px;"></i>
+                            <p style="color: var(--text-secondary);">You have no active orders. Place an order to see live tracking!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 4: My Favorites -->
+                <div class="tab-view" id="view-favorites">
+                    <div class="view-header">
+                        <h2>My Favorite Dishes</h2>
+                    </div>
+
+                    <div class="menu-grid" id="favorites-grid">
+                        <!-- Filled by JS -->
+                        <p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 40px 0;">You haven't favorited any dishes yet.</p>
+                    </div>
+                </div>
+
+                <!-- View 5: Notifications Inbox -->
+                <div class="tab-view" id="view-inbox">
+                    <div class="view-header">
+                        <h2>Notifications Inbox</h2>
+                        <button class="btn-load-wallet" style="padding: 6px 12px; font-size: 12px;" onclick="markAllNotificationsRead()">Mark All Read</button>
+                    </div>
+
+                    <div class="glass-card" style="padding: 24px;">
+                        <div class="notification-inbox" id="notifications-list">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 6: Order History -->
+                <div class="tab-view" id="view-history">
+                    <div class="view-header">
+                        <h2>Order History</h2>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date & Time</th>
+                                    <th>Items Ordered</th>
+                                    <th>Total Paid</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Support Floating Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-button" onclick="toggleChatWindow()">
+            <i class="fa-solid fa-comments"></i>
+        </div>
+        <div class="chat-window glass-card" id="support-chat-window">
+            <div class="chat-header">
+                <h3><i class="fa-solid fa-robot"></i> STC Smart Support</h3>
+                <span style="cursor: pointer;" onclick="toggleChatWindow()"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div class="chat-messages" id="chat-messages-container">
+                <div class="chat-msg support">
+                    Ahlan! Ask me anything about your orders or wallet balance.
+                </div>
+            </div>
+            <div class="chat-input-box">
+                <input type="text" id="chat-text-input" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKeyPress(event)">
+                <div class="btn-send-chat" onclick="sendSupportMessage()"><i class="fa-solid fa-paper-plane"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- E-Wallet balance top up modal -->
+    <div class="modal" id="wallet-modal">
+        <div class="modal-content animate-scale-in">
+            <span class="close-modal" onclick="closeModal('wallet-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Load Wallet Balance</h2>
+                <p>Deposit funds into your digital STC Pay wallet</p>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 24px;">
+                <button class="btn-submit" style="background: var(--stc-purple); margin: 0; flex: 1;" onclick="setWalletMethod('CreditCard')" id="wallet-btn-card">Credit Card</button>
+                <button class="btn-submit" style="background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); margin: 0; flex: 1;" onclick="setWalletMethod('QR')" id="wallet-btn-qr">Scan QR Code</button>
+            </div>
+
+            <!-- Card Load Mode -->
+            <form id="wallet-card-form" onsubmit="handleWalletLoad(event)">
+                <input type="hidden" id="wallet-load-method" value="CreditCard">
+                <div class="form-group">
+                    <label class="form-label" for="wallet-amount-card">Amount to Deposit (Rs.)</label>
+                    <input type="number" id="wallet-amount-card" class="form-control" placeholder="Enter amount (e.g. 1000)" min="1" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="wallet-card-num">Card Number</label>
+                    <input type="text" id="wallet-card-num" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="wallet-card-expiry">Expiry Date</label>
+                        <input type="text" id="wallet-card-expiry" class="form-control" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="wallet-card-cvv">CVV</label>
+                        <input type="password" id="wallet-card-cvv" class="form-control" placeholder="XXX" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Securely Load Balance</button>
+            </form>
+
+            <!-- QR Code Load Mode -->
+            <div id="wallet-qr-pane" style="display: none; text-align: center; padding: 10px 0;">
+                <p style="font-size: 14px; margin-bottom: 16px; color: var(--text-secondary);">Scan this QR Code with your STC Pay mobile application to authorize a simulated transfer.</p>
+                <div style="width: 160px; height: 160px; background: white; border: 2px solid var(--stc-purple); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md);">
+                    <i class="fa-solid fa-qrcode" style="font-size: 120px; color: var(--text-primary);"></i>
+                </div>
+                <div class="form-group" style="max-width: 250px; margin: 0 auto 16px;">
+                    <label class="form-label" for="wallet-amount-qr">Simulated Deposit (Rs.)</label>
+                    <input type="number" id="wallet-amount-qr" class="form-control" placeholder="Amount (e.g. 2000)" min="1" step="0.01">
+                </div>
+                <button class="btn-submit" onclick="triggerQRDeposit()">Simulate QR Authorization Success</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Rating Modal -->
+    <div class="modal" id="review-modal">
+        <div class="modal-content animate-scale-in">
+            <span class="close-modal" onclick="closeModal('review-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Write a Review</h2>
+                <p id="review-item-name">Share your thoughts on this item</p>
+            </div>
+            <form id="review-form" onsubmit="handleReviewSubmit(event)">
+                <input type="hidden" id="review-item-id" value="">
+                
+                <label class="form-label text-center">Your Rating</label>
+                <div class="star-selector" id="rating-star-selector">
+                    <i class="fa-solid fa-star" data-value="1" onclick="setStarRating(1)"></i>
+                    <i class="fa-solid fa-star" data-value="2" onclick="setStarRating(2)"></i>
+                    <i class="fa-solid fa-star" data-value="3" onclick="setStarRating(3)"></i>
+                    <i class="fa-solid fa-star" data-value="4" onclick="setStarRating(4)"></i>
+                    <i class="fa-solid fa-star" data-value="5" onclick="setStarRating(5)"></i>
+                </div>
+                <input type="hidden" id="review-rating-value" value="5">
+
+                <div class="form-group">
+                    <label class="form-label" for="review-comment">Comment</label>
+                    <textarea id="review-comment" class="form-control" rows="3" placeholder="Tell us what you liked or disliked..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 40px 0 20px; margin-top: 80px; text-align: center; color: var(--text-secondary); font-size: 14px;">
+        <div class="container">
+            <p style="font-weight: 700; color: var(--stc-purple); margin-bottom: 10px;">stc express Ltd.</p>
+            <p>&copy; 2026 STC Ordering System Project. Designed for OOP C++ CGI Case Studies.</p>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.6;">All rights reserved. Olaya Campus Riyadh Saudi Arabia.</p>
+        </div>
+    </footer>
+
+    <!-- Main Client-side JS -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

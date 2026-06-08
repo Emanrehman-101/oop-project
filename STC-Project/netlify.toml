@@ -1,0 +1,5 @@
+[build]
+  publish = "netlify_build"
+
+# This project uses a client-side localStorage simulation mode for offline/static deployment.
+# Deploy the `netlify_build` folder to Netlify so the static frontend runs without a backend.

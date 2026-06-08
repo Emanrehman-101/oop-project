@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - STC Express</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Premium Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Announcement Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker" id="announcements-ticker">
+            <div class="ticker-item">STC Ordering Management System Admin Portal.</div>
+            <div class="ticker-item">Dual database persistence engine active.</div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo-section">
+                <i class="fa-solid fa-bolt" style="color: var(--stc-coral); font-size: 24px;"></i>
+                <span class="logo-text">stc<span style="color: #ffffff; font-weight: 300;">express</span></span>
+                <span class="logo-badge" style="background: var(--stc-purple);">Admin</span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link active">Admin Panel</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-buttons">
+                <div class="theme-toggle" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <div class="user-profile-menu" onclick="handleLogout()">
+                    <div class="user-avatar" id="nav-user-avatar" style="background: var(--stc-purple);">A</div>
+                    <span id="nav-username" style="font-weight: 600; font-size: 14px;">Admin</span>
+                    <i class="fa-solid fa-right-from-bracket" style="font-size: 14px; opacity: 0.8;" title="Log Out"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Layout -->
+    <main class="container animate-fade-in-up" style="padding-top: 30px;">
+        
+        <div class="dashboard-grid" style="grid-template-columns: 280px 1fr;">
+            
+            <!-- Sidebar Panel -->
+            <aside class="sidebar-profile">
+                <div class="profile-card glass-card" style="padding: 24px;">
+                    <div class="profile-avatar-large" style="background: var(--stc-purple);">A</div>
+                    <h3 class="profile-name">STC Administrator</h3>
+                    <p class="profile-email">admin@stc.com</p>
+                    
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+
+                    <!-- Sidebar Section Navigation -->
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-menu-item active" onclick="switchAdminTab('analytics')" id="tab-btn-analytics">
+                            <i class="fa-solid fa-chart-line"></i> Analytics Dashboard
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('notifications')" id="tab-btn-notifications">
+                            <i class="fa-solid fa-bell"></i> Notifications <span id="admin-notif-badge" class="badge" style="background:var(--stc-coral); color:white; font-size:10px; padding:2px 7px; margin-left:6px; border-radius:10px; display:none;">0</span>
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('orders')" id="tab-btn-orders">
+                            <i class="fa-solid fa-shopping-bag"></i> Orders List
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('menu')" id="tab-btn-menu">
+                            <i class="fa-solid fa-list-check"></i> Menu Manager
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('coupons')" id="tab-btn-coupons">
+                            <i class="fa-solid fa-ticket"></i> Coupons Promo
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('announcements')" id="tab-btn-announcements">
+                            <i class="fa-solid fa-bullhorn"></i> Broadcast Center
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('banner')" id="tab-btn-banner">
+                            <i class="fa-solid fa-images"></i> Banner Settings
+                        </li>
+                        <li class="sidebar-menu-item" onclick="switchAdminTab('customers')" id="tab-btn-customers">
+                            <i class="fa-solid fa-users"></i> Customer Database
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Dashboard Content Views -->
+            <section>
+                
+                <!-- View 1: Analytics Dashboard -->
+                <div class="tab-view active" id="view-analytics">
+                    <div class="view-header">
+                        <h2>Analytics Overview</h2>
+                    </div>
+
+                    <!-- Stats Cards Grid -->
+                    <div class="admin-stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Revenue</span>
+                                <span class="stat-value" id="stats-revenue">Rs. 0.00</span>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon"><i class="fa-solid fa-shopping-basket"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Orders</span>
+                                <span class="stat-value" id="stats-orders">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Customers</span>
+                                <span class="stat-value" id="stats-customers">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Data breakdown grids -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px;">
+                        <!-- Category Sales -->
+                        <div class="glass-card" style="padding: 24px;">
+                            <h3 style="font-size: 18px; margin-bottom: 16px;"><i class="fa-solid fa-chart-pie" style="color: var(--stc-purple);"></i> Revenue by Category</h3>
+                            <div id="stats-categories-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+                        <!-- Daily Orders Summary -->
+                        <div class="glass-card" style="padding: 24px;">
+                            <h3 style="font-size: 18px; margin-bottom: 16px;"><i class="fa-solid fa-chart-simple" style="color: var(--stc-coral);"></i> Recent Sales Activity</h3>
+                            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Review recent customer checkout volumes.</p>
+                            <div id="stats-activity-container" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 2: Admin Notifications -->
+                <div class="tab-view" id="view-notifications">
+                    <div class="view-header">
+                        <h2><i class="fa-solid fa-bell" style="color:var(--stc-coral); margin-right:8px;"></i>Order Notifications</h2>
+                        <button class="btn-admin-add" onclick="markAdminNotificationsRead()" style="background:var(--stc-purple);"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
+                    </div>
+
+                    <div id="admin-notifications-list" style="display: flex; flex-direction: column; gap: 12px; max-width: 800px;">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- View 3: Orders List (Order Management) -->
+                <div class="tab-view" id="view-orders">
+                    <div class="view-header">
+                        <h2>All Orders Management</h2>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items Ordered</th>
+                                    <th>Total Paid</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Prep Time</th>
+                                    <th>Action Controls</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- View 3: Menu Manager -->
+                <div class="tab-view" id="view-menu">
+                    <div class="view-header">
+                        <h2>Menu Inventory Manager</h2>
+                        <button class="btn-admin-add" onclick="openMenuItemModal('add')"><i class="fa-solid fa-plus"></i> Add Item</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Sold Out</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-menu-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- View 4: Coupons Promo -->
+                <div class="tab-view" id="view-coupons">
+                    <div class="view-header">
+                        <h2>Coupons & Promos</h2>
+                        <button class="btn-admin-add" onclick="openCouponModal()"><i class="fa-solid fa-plus"></i> Add Coupon</button>
+                    </div>
+
+                    <div class="table-container" style="max-width: 600px;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Coupon Code</th>
+                                    <th>Discount %</th>
+                                    <th>Active Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-coupons-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- View 5: Broadcast Center -->
+                <div class="tab-view" id="view-announcements">
+                    <div class="view-header">
+                        <h2>Broadcast Center</h2>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px;">
+                        <!-- Publish Announcement -->
+                        <div class="glass-card" style="padding: 24px; height: fit-content;">
+                            <h3 style="font-size: 18px; margin-bottom: 16px;">Publish Announcement</h3>
+                            <form id="announcement-form" onsubmit="handleAnnouncementSubmit(event)">
+                                <div class="form-group">
+                                    <label class="form-label" for="announce-message">Broadcast Message</label>
+                                    <textarea id="announce-message" class="form-control" rows="4" placeholder="Enter scrolling ticker text (e.g. Save 20% on Pizzas today!)..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn-submit" style="background: var(--stc-purple); margin: 0;">Broadcast Now</button>
+                            </form>
+                        </div>
+                        
+                        <!-- List of announcements -->
+                        <div class="glass-card" style="padding: 24px;">
+                            <h3 style="font-size: 18px; margin-bottom: 16px;">Past Broadcast History</h3>
+                            <div style="display: flex; flex-direction: column; gap: 12px;" id="admin-announcements-list">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 6: Banner Settings -->
+                <div class="tab-view" id="view-banner">
+                    <div class="view-header">
+                        <h2>Hero Banner Settings</h2>
+                    </div>
+
+                    <div class="glass-card" style="padding: 30px; max-width: 600px;">
+                        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;">Manage the primary layout message and backdrop image shown on the Homepage hero banner. Ideal for marketing Riyadh Headquarters events.</p>
+                        
+                        <!-- Banner Preview Box -->
+                        <div style="height: 150px; background: linear-gradient(rgba(79, 0, 140, 0.8), rgba(79, 0, 140, 0.8)), url('/images/stc_building.jpg') center/cover; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; padding: 20px; color: white; margin-bottom: 24px; text-align: center; border: 1px solid var(--border-color);">
+                            <h4 id="banner-preview-text" style="font-size: 18px; font-weight: 700;">Order STC Signature Feast - Save 20% today with Coupon: STC20!</h4>
+                        </div>
+
+                        <form id="banner-form" onsubmit="handleBannerUpdate(event)">
+                            <div class="form-group">
+                                <label class="form-label" for="banner-text-input">Banner Headline Text</label>
+                                <input type="text" id="banner-text-input" class="form-control" value="Order STC Signature Feast - Save 20% today with Coupon: STC20!" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="banner-img-input">Banner Background Image URL</label>
+                                <input type="text" id="banner-img-input" class="form-control" value="/images/stc_building.jpg" required>
+                            </div>
+                            <button type="submit" class="btn-submit" style="background: var(--stc-purple); margin: 0;">Save Banner Configuration</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- View 7: Customer Database -->
+                <div class="tab-view" id="view-customers">
+                    <div class="view-header">
+                        <h2>Registered Customer Database</h2>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>Email Address</th>
+                                    <th>Phone Number</th>
+                                    <th>Delivery Address</th>
+                                    <th>Wallet Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-customers-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Support Floating Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-button" onclick="toggleChatWindow()">
+            <i class="fa-solid fa-comments"></i>
+        </div>
+        <div class="chat-window glass-card" id="support-chat-window">
+            <div class="chat-header">
+                <h3><i class="fa-solid fa-robot"></i> STC Smart Support</h3>
+                <span style="cursor: pointer;" onclick="toggleChatWindow()"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div class="chat-messages" id="chat-messages-container">
+                <div class="chat-msg support">
+                    Welcome Admin. Check logs or control order streams from dashboard tabs!
+                </div>
+            </div>
+            <div class="chat-input-box">
+                <input type="text" id="chat-text-input" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKeyPress(event)">
+                <div class="btn-send-chat" onclick="sendSupportMessage()"><i class="fa-solid fa-paper-plane"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Menu Item Modal -->
+    <div class="modal" id="menu-item-modal">
+        <div class="modal-content animate-scale-in">
+            <span class="close-modal" onclick="closeModal('menu-item-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 id="menu-modal-title">Add Menu Item</h2>
+                <p>Manage dish configuration in database</p>
+            </div>
+            <form id="menu-item-form" onsubmit="handleMenuItemSubmit(event)">
+                <input type="hidden" id="menu-item-id" value="">
+                <div class="form-group">
+                    <label class="form-label" for="menu-item-name">Dish Name</label>
+                    <input type="text" id="menu-item-name" class="form-control" placeholder="e.g. Spicy Chicken Burger" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="menu-item-desc">Description</label>
+                    <textarea id="menu-item-desc" class="form-control" rows="2" placeholder="Describe the ingredients..." required></textarea>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="menu-item-price">Price (Rs.)</label>
+                        <input type="number" id="menu-item-price" class="form-control" placeholder="Price (e.g. 750)" min="1" step="0.01" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="menu-item-category">Category</label>
+                        <select id="menu-item-category" class="form-control" required style="padding: 10px 12px; font-weight: 500;">
+                            <option value="Burgers">Burgers</option>
+                            <option value="Pizza">Pizza</option>
+                            <option value="Sides">Sides</option>
+                            <option value="Drinks">Drinks</option>
+                            <option value="Desserts">Desserts</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Sold Out toggle shown only during edit -->
+                <div class="form-group" id="menu-item-sold-out-group" style="display: none; align-items: center; justify-content: space-between; padding: 10px 0;">
+                    <label class="form-label" style="margin: 0;">Mark as Sold Out</label>
+                    <label class="switch">
+                        <input type="checkbox" id="menu-item-sold-out-checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn-submit" id="menu-modal-submit-btn">Save Menu Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Coupon Modal -->
+    <div class="modal" id="coupon-modal">
+        <div class="modal-content animate-scale-in">
+            <span class="close-modal" onclick="closeModal('coupon-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Create Promo Coupon</h2>
+                <p>Register new discount codes for customer checkouts</p>
+            </div>
+            <form id="coupon-form" onsubmit="handleCouponSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="coupon-code">Coupon Code (Uppercase)</label>
+                    <input type="text" id="coupon-code" class="form-control" placeholder="e.g. SUMMER50" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="coupon-discount">Discount Percent (%)</label>
+                    <input type="number" id="coupon-discount" class="form-control" placeholder="15" min="1" max="100" required>
+                </div>
+                <button type="submit" class="btn-submit">Register Promo Coupon</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Live Tracker Preview Modal -->
+    <div class="modal" id="admin-tracker-modal">
+        <div class="modal-content animate-scale-in" style="max-width: 600px;">
+            <span class="close-modal" onclick="closeModal('admin-tracker-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Live Tracking Preview</h2>
+                <p>Customer's real-time view of this order</p>
+            </div>
+            <div id="admin-tracker-preview-container" style="margin-top: 20px;">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 40px 0 20px; margin-top: 80px; text-align: center; color: var(--text-secondary); font-size: 14px;">
+        <div class="container">
+            <p style="font-weight: 700; color: var(--stc-purple); margin-bottom: 10px;">stc express Ltd.</p>
+            <p>&copy; 2026 STC Ordering System Project. Designed for OOP C++ CGI Case Studies.</p>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.6;">All rights reserved. Olaya Campus Riyadh Saudi Arabia.</p>
+        </div>
+    </footer>
+
+    <!-- Main Client-side JS -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

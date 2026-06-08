@@ -1,0 +1,2 @@
+1|2|1|5|Best burger I have ever had! STC sauce is incredible.|customer|2026-05-29 21:39:26
+2|2|3|5|A bit spicy but very tasty, plenty of pepperoni.|customer|2026-05-29 21:39:26

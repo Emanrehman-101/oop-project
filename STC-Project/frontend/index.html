@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC Express - Modern Ordering & Management System</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Premium Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Announcement Scrolling Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker" id="announcements-ticker">
+            <div class="ticker-item">Welcome to the STC Ordering System! Seeded with C++ OOP fallbacks.</div>
+            <div class="ticker-item">Loading live broadcasts from STC Riyadh HQ...</div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo-section">
+                <!-- Using a simulated modern text logo for brand flexibility -->
+                <i class="fa-solid fa-bolt" style="color: var(--stc-coral); font-size: 24px;"></i>
+                <span class="logo-text">stc<span style="color: #ffffff; font-weight: 300;">express</span></span>
+                <span class="logo-badge">C++ OOP</span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link active">Home</a></li>
+                    <li><a href="#" onclick="openLoginModal('customer')" class="nav-link">My Dashboard</a></li>
+                    <li><a href="#" onclick="openLoginModal('admin')" class="nav-link">Admin Panel</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-buttons">
+                <div class="theme-toggle" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <div id="auth-nav-container">
+                    <button class="btn-login-nav" onclick="openLoginModal('customer')">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container" style="padding-top: 20px;">
+        
+        <!-- Hero Dynamic Banner -->
+        <section class="hero-banner" id="hero-banner" style="background-image: url('/images/stc_building.jpg');">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 id="banner-text">Savor the Best STC Flavors at Riyadh HQ!</h1>
+                <p>Welcome to our flagship ordering dashboard. Powered by a high-performance C++ CGI logic controller.</p>
+                <a href="#menu-anchor" class="hero-btn">Browse Menu <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <!-- Riyadh Head Office Highlight Banner/Card (Requested Integration) -->
+        <section class="glass-card" style="padding: 24px; margin-bottom: 40px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+            <div style="flex: 1 1 300px; max-height: 200px; overflow: hidden; border-radius: var(--radius-md);">
+                <img src="/images/stc_building.jpg" alt="STC Headquarters Building" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="flex: 2 1 400px;">
+                <span class="badge ready" style="margin-bottom: 8px;">STC Riyadh HQ Campus</span>
+                <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Order directly from the STC Campus Kitchen</h3>
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+                    Our digital ordering system bridges the C++ backend core with our flagship kitchen at Riyadh headquarters. Order signature burgers, pizza, sides, and hot brews, delivered right to your office desk or Olaya district.
+                </p>
+                <div style="display: flex; gap: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;">
+                        <i class="fa-solid fa-clock" style="color: var(--stc-purple);"></i> Average delivery: 15-20 Mins
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;">
+                        <i class="fa-solid fa-wallet" style="color: var(--stc-coral);"></i> E-Wallet instant pay active
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <span id="menu-anchor"></span>
+
+        <!-- Search & Filter Controls -->
+        <section class="glass-card" style="padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+            <div class="categories-container" id="menu-categories" style="margin-bottom: 0; padding: 0;">
+                <div class="category-tab active" onclick="filterCategory('All')">
+                    <span class="category-icon"><i class="fa-solid fa-utensils"></i></span> All Items
+                </div>
+                <div class="category-tab" onclick="filterCategory('Burgers')">
+                    <span class="category-icon"><i class="fa-solid fa-hamburger"></i></span> Burgers
+                </div>
+                <div class="category-tab" onclick="filterCategory('Pizza')">
+                    <span class="category-icon"><i class="fa-solid fa-pizza-slice"></i></span> Pizza
+                </div>
+                <div class="category-tab" onclick="filterCategory('Sides')">
+                    <span class="category-icon"><i class="fa-solid fa-cookie"></i></span> Sides
+                </div>
+                <div class="category-tab" onclick="filterCategory('Drinks')">
+                    <span class="category-icon"><i class="fa-solid fa-mug-hot"></i></span> Drinks
+                </div>
+                <div class="category-tab" onclick="filterCategory('Desserts')">
+                    <span class="category-icon"><i class="fa-solid fa-ice-cream"></i></span> Desserts
+                </div>
+            </div>
+            
+            <div style="position: relative; width: 100%; max-width: 300px;">
+                <input type="text" id="menu-search-input" placeholder="Search menu items..." style="width: 100%; padding: 10px 16px 10px 40px; border-radius: 30px; background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary);" oninput="searchMenu()">
+                <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 16px; top: 13px; color: var(--text-secondary);"></i>
+            </div>
+        </section>
+
+        <!-- Menu Grid -->
+        <section class="menu-grid" id="menu-items-grid">
+            <!-- Loading indicator -->
+            <div style="grid-column: 1/-1; text-align: center; padding: 50px 0;">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 40px; color: var(--stc-purple);"></i>
+                <p style="margin-top: 16px; color: var(--text-secondary);">Loading STC Kitchen Menu...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Support Floating Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-button" onclick="toggleChatWindow()">
+            <i class="fa-solid fa-comments"></i>
+        </div>
+        <div class="chat-window glass-card" id="support-chat-window">
+            <div class="chat-header">
+                <h3><i class="fa-solid fa-robot"></i> STC Smart Support</h3>
+                <span style="cursor: pointer;" onclick="toggleChatWindow()"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div class="chat-messages" id="chat-messages-container">
+                <div class="chat-msg support">
+                    Ahlan! Welcome to STC support. Ask me anything about your order, wallet, or menu items!
+                </div>
+            </div>
+            <div class="chat-input-box">
+                <input type="text" id="chat-text-input" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKeyPress(event)">
+                <div class="btn-send-chat" onclick="sendSupportMessage()"><i class="fa-solid fa-paper-plane"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('login-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 id="login-title">Sign In</h2>
+                <p id="login-subtitle">Access your STC Wallet & Orders</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <input type="hidden" id="login-role" value="customer">
+                <div class="form-group">
+                    <label class="form-label" for="login-username">Username</label>
+                    <input type="text" id="login-username" class="form-control" placeholder="e.g. customer or admin" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn-submit" id="btn-login-submit">Login</button>
+            </form>
+            <div class="form-footer" id="login-footer">
+                Don't have an account? <span class="form-link" onclick="toggleAuthModal('register')">Register Now</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content" style="max-width: 520px; padding: 30px;">
+            <span class="close-modal" onclick="closeModal('register-modal')">&times;</span>
+            <div class="modal-header" style="margin-bottom: 20px;">
+                <h2>Create Account</h2>
+                <p>Register to get starting $100 in your E-Wallet!</p>
+            </div>
+            <form id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label" for="reg-username">Username</label>
+                    <input type="text" id="reg-username" class="form-control" placeholder="Create username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reg-password">Password</label>
+                    <input type="password" id="reg-password" class="form-control" placeholder="Create password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reg-email">Email Address</label>
+                    <input type="email" id="reg-email" class="form-control" placeholder="e.g. name@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reg-phone">Phone Number</label>
+                    <input type="text" id="reg-phone" class="form-control" placeholder="e.g. +966500000002" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reg-address">Delivery Address</label>
+                    <textarea id="reg-address" class="form-control" rows="2" placeholder="e.g. Office 12, Floor 4, STC Headquarters, Riyadh" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Sign Up & Claim Balance</button>
+            </form>
+            <div class="form-footer">
+                Already registered? <span class="form-link" onclick="toggleAuthModal('login')">Sign In Instead</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Rating Modal -->
+    <div class="modal" id="review-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('review-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Write a Review</h2>
+                <p id="review-item-name">Share your thoughts on this item</p>
+            </div>
+            <form id="review-form" onsubmit="handleReviewSubmit(event)">
+                <input type="hidden" id="review-item-id" value="">
+                
+                <label class="form-label text-center">Your Rating</label>
+                <div class="star-selector" id="rating-star-selector">
+                    <i class="fa-solid fa-star" data-value="1" onclick="setStarRating(1)"></i>
+                    <i class="fa-solid fa-star" data-value="2" onclick="setStarRating(2)"></i>
+                    <i class="fa-solid fa-star" data-value="3" onclick="setStarRating(3)"></i>
+                    <i class="fa-solid fa-star" data-value="4" onclick="setStarRating(4)"></i>
+                    <i class="fa-solid fa-star" data-value="5" onclick="setStarRating(5)"></i>
+                </div>
+                <input type="hidden" id="review-rating-value" value="5">
+
+                <div class="form-group">
+                    <label class="form-label" for="review-comment">Comment</label>
+                    <textarea id="review-comment" class="form-control" rows="3" placeholder="Tell us what you liked or disliked..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 40px 0 20px; margin-top: 80px; text-align: center; color: var(--text-secondary); font-size: 14px;">
+        <div class="container">
+            <p style="font-weight: 700; color: var(--stc-purple); margin-bottom: 10px;">stc express Ltd.</p>
+            <p>&copy; 2026 STC Ordering System Project. Designed for OOP C++ CGI Case Studies.</p>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.6;">All rights reserved. Olaya Campus Riyadh Saudi Arabia.</p>
+        </div>
+    </footer>
+
+    <!-- Main Client-side JS -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

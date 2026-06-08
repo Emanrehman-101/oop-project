@@ -1,0 +1,5 @@
+# No external Python dependencies are required for the built-in server.
+# This file is provided for Python hosting platforms.
+
+# If you choose a host that requires an application server, you can install gunicorn.
+# gunicorn==20.1.0

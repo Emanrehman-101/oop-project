@@ -1,0 +1,3 @@
+1|admin|185030e4f1b5eb9c|admin@stc.com|admin|+966500000001|STC Head Office, Riyadh
+2|customer|1ef916edc029c6b3|customer@stc.com|customer|+966500000002|Olaya District, Riyadh
+3|eman|b8789fb6569b565|emanrehman9919@gmail.com|customer|03438956202|rdtfytg

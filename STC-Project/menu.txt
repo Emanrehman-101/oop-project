@@ -1,0 +1,9 @@
+1|STC Signature Burger|Premium beef patty with cheddar cheese and STC orange sauce.|1200.00|Burgers|0|4.8|124
+2|Crispy Chicken Burger|Crispy fried chicken breast, lettuce, and spicy mayo in a brioche bun.|950.00|Burgers|0|4.6|98
+3|STC Deluxe Pizza|Stone-baked pizza loaded with pepperoni, beef, and mozzarella.|2200.00|Pizza|0|4.9|142
+4|Margarita Flatbread|Simplicity at its best: tomato sauce, mozzarella, and fresh basil.|1500.00|Pizza|0|4.2|53
+5|Golden French Fries|Crispy golden fries seasoned with a light touch of sea salt.|450.00|Sides|0|4.5|210
+6|STC Dynamite Wings|Eight pieces of crispy chicken wings tossed in signature sweet glaze.|750.00|Sides|1|4.7|76
+7|Iced Latte|Chilled espresso poured over creamy whole milk and ice, sweetened.|650.00|Drinks|0|4.4|85
+8|Fresh Orange Juice|100% natural, freshly squeezed juice, served ice cold.|500.00|Drinks|0|4.9|115
+9|Chocolate Lava Cake|Warm chocolate cake with a molten fudge center and vanilla ice cream.|850.00|Desserts|0|4.8|189
